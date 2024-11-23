@@ -34,7 +34,7 @@ class AuthController {
                 id: findUser.id
             }
 
-            const token = jwt.sign(JWTPayload, process.env.NEXTAUTH_SECRET , {
+            const token = jwt.sign(JWTPayload, process.env.NEXT_PUBLIC_AUTH_SECRET , {
                 expiresIn: "365d"
             } )
 

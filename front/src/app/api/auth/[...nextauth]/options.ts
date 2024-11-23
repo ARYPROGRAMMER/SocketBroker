@@ -1,8 +1,9 @@
 import { LOGIN_URL } from "@/lib/apiEndPoints";
-import axios from "axios";
-import { Account, AuthOptions, ISODateString } from "next-auth";
+import axios, {AxiosError} from "axios";
+import { Account, AuthOptions, ISODateString, User } from "next-auth";
 import { JWT } from "next-auth/jwt";
 import GoogleProvider from "next-auth/providers/google";
+import { redirect } from "next/navigation";
 
 export interface CustomSession {
   user?: CustomUser;
@@ -45,43 +46,48 @@ export const authOption: AuthOptions = {
         const { data } = await axios.post(LOGIN_URL, payload);
         user.id = data?.user?.id.toString();
         user.token = data?.user?.token;
-        user.provider = data?.user?.provider;
+  
 
         return true;
       } catch (error) {
-        return false;
+        if (error instanceof AxiosError) {
+          return redirect(`/auth/error?message=${error.message}`);
+        }
+        return redirect(
+          `/auth/error?message=Something went wrong.please try again!`
+        );
       }
     },
-
+    async jwt({ token, user }) {
+      if (user) {
+        token.user = user;
+      }
+      return token;
+    },
     async session({
       session,
       user,
       token,
     }: {
       session: CustomSession;
-      user: CustomUser;
+      user: User;
       token: JWT;
     }) {
       session.user = token.user as CustomUser;
       return session;
     },
-    async jwt({ token, user, account, profile, isNewUser }) {
-      if (user) {
-        token.user = user;
-      }
-      return token;
-    },
+  
   },
 
   providers: [
     GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID as string,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
       authorization: {
         params: {
           prompt: "consent",
           access_type: "offline",
-          response_mode: "code",
+          response_type: "code",
         },
       },
     }),
