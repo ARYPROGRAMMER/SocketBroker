@@ -5,13 +5,13 @@ import Navbar from "@/components/base/Navbar";
 import UserReviews from "@/components/base/UserReviews";
 import { getServerSession } from "next-auth";
 import Image from "next/image";
-import { CustomSession } from "./api/auth/[...nextauth]/options";
+import { authOption, CustomSession } from "./api/auth/[...nextauth]/options";
 
 export default async function Home() {
-  const session: CustomSession|null = await getServerSession();
+  const session: CustomSession | null = await getServerSession(authOption);
   return (
     <div className="min-h-screen flex flex-col">
-      <Navbar user={session?.user} />
+      <Navbar user={session?.user ?? null} />
       <HeroSection />
       <FeatureSection />
       <UserReviews />

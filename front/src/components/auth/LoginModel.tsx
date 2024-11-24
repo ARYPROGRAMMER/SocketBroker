@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import {
   Dialog,
@@ -13,17 +11,16 @@ import { Button } from "../ui/button";
 import Image from "next/image";
 import { signIn } from "next-auth/react";
 
+
+
+const handleLogin = async () => {
+  signIn("google", {
+    callbackUrl: "/dashboard",
+    redirect: true,
+  })
+};
+
 export default function LoginModel() {
-
-
-  const handleLogin = () => {
-    signIn("google", {
-      callbackUrl: "/dashboard",
-      redirect: true
-    })
-  }
-
-
 
   return (
     <Dialog>
@@ -39,7 +36,7 @@ export default function LoginModel() {
         </DialogHeader>
         <Button variant="outline" onClick={handleLogin}>
             <Image src="/images/google.png" className="mr-4" alt="google-logo" width={25} height={25} />
-            Continue with Google Buddy
+            Continue with Google
         </Button>
       </DialogContent>
     </Dialog>
