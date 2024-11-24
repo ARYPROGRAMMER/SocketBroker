@@ -45,4 +45,6 @@ model GroupUsers {
   group_id   String    @db.Uuid
   name       String
   created_at DateTime  @default(now())
+
+  @@map("group_users")
 }
