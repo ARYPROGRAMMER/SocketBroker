@@ -11,15 +11,16 @@ import { Button } from "../ui/button";
 import Image from "next/image";
 import { signIn } from "next-auth/react";
 
+
+
+const handleLogin = async () => {
+  signIn("google", {
+    callbackUrl: "/dashboard",
+    redirect: true,
+  })
+};
+
 export default function LoginModel() {
-
-
-  const handleLogin = async () => {
-    await signIn("google", {
-      callbackUrl: "/",
-      redirect: true,
-    })
-  };
 
   return (
     <Dialog>

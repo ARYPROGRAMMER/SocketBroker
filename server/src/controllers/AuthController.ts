@@ -5,7 +5,6 @@ import jwt from 'jsonwebtoken';
 interface LoginPayloadType{
     name: string;
     email: string;
-    password: string;
     oauth_id: string;
     provider: string;
     image?: string;
@@ -34,7 +33,7 @@ class AuthController {
                 id: findUser.id
             }
 
-            const token = jwt.sign(JWTPayload, process.env.NEXT_PUBLIC_AUTH_SECRET , {
+            const token = jwt.sign(JWTPayload, process.env.JWT_SECRET , {
                 expiresIn: "365d"
             } )
 
