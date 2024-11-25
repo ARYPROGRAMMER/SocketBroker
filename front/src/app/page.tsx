@@ -4,7 +4,7 @@ import HeroSection from "@/components/base/HeroSection";
 import Navbar from "@/components/base/Navbar";
 import UserReviews from "@/components/base/UserReviews";
 import { getServerSession } from "next-auth";
-import Image from "next/image";
+
 import { authOption, CustomSession } from "./api/auth/[...nextauth]/options";
 
 export default async function Home() {
