@@ -1,7 +1,7 @@
 import { GROUP_CHAT_URL } from "@/lib/apiEndPoints";
 
 export async function fetchChatGroup(token: string) {
-  const res = await fetch(GROUP_CHAT_URL+"/:id", {
+  const res = await fetch(GROUP_CHAT_URL, {
     headers: {
       Authorization: token,
     },
